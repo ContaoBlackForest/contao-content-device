@@ -13,26 +13,35 @@
 /**
  * Table tl_layout
  */
+$tl_content = &$GLOBALS['TL_DCA']['tl_content'];
+
+// List
+$callback = &$tl_content['list']['sorting']['child_record_callback'];
+
+array_insert($callback, 0, array('ContaoBlackforest\Backend\DCA\Content\Device', 'addDeviceVisibility'));
 
 // Palettes
-//$GLOBALS['TL_DCA']['tl_content']['palettes']['default'] = str_replace('{expert_legend:', '{legend_imageSecSet:hide},activateImageSecSet;{expert_legend:', $GLOBALS['TL_DCA']['tl_content']['palettes']['default']);
+foreach ($tl_content['palettes'] as &$pallet) {
+	if (!is_array($pallet) && stristr($pallet, 'invisible_legend')) {
+		$string = '{device_legend:hide},deviceSelect;{invisible_legend';
+
+		$pallet = str_replace('{invisible_legend', $string, $pallet);
+	}
+}
 
 //Fields
-/*$fields = array
+$fields = array
 (
-	'activateImageSecSet' => array
+	'deviceSelect' => array
 	(
-		'label'     => &$GLOBALS['TL_LANG']['tl_layout']['activateImageSecSet'],
+		'label'     => &$GLOBALS['TL_LANG']['tl_content']['deviceSelect'],
+		'default'   => '--',
 		'exclude'   => true,
-		'inputType' => 'checkbox',
-		'sql'       => "char(1) NOT NULL default ''"
+		'inputType' => 'select',
+		'options'   => array('--', 'desktop', 'mobile', 'phone', 'tablet'),
+		'reference' => &$GLOBALS['TL_LANG']['tl_content'],
+		'sql'       => "varchar(32) NOT NULL default ''"
 	)
-);*/
+);
 
-//$GLOBALS['TL_DCA']['tl_content']['fields'] = array_merge($GLOBALS['TL_DCA']['tl_content']['fields'], $fields);
- 
- 
- 
- 
- 
-  
+$tl_content['fields'] = array_merge($tl_content['fields'], $fields);
