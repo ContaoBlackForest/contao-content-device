@@ -68,7 +68,7 @@ class Device extends \Backend
 		return $return;
 	}
 
-	public function add($table) {
+	public function addChildRecordCallback($table) {
 		if ($table === 'tl_content') {
 			$callback = &$GLOBALS['TL_DCA'][$table]['list']['sorting']['child_record_callback'];
 
