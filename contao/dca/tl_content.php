@@ -13,10 +13,14 @@
 /**
  * Table tl_layout
  */
-
-// Palettes
 $tl_content = &$GLOBALS['TL_DCA']['tl_content'];
 
+// List
+$callback = &$tl_content['list']['sorting']['child_record_callback'];
+
+array_insert($callback, 0, array('ContaoBlackforest\Backend\DCA\Content\Device', 'addDeviceVisibility'));
+
+// Palettes
 foreach ($tl_content['palettes'] as &$pallet) {
 	if (!is_array($pallet) && stristr($pallet, 'invisible_legend')) {
 		$string = '{device_legend:hide},deviceSelect;{invisible_legend';

@@ -30,6 +30,10 @@
 				<source>Tablet</source>
                 <target>Tablet</target>
 			</trans-unit>
+			<trans-unit id="tl_content.deviceVisibility">
+				<source>Visible for</source>
+                <target>Sichtbar für</target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
