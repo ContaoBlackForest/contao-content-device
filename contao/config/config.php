@@ -14,5 +14,4 @@
  */
 
 $GLOBALS['TL_HOOKS']['isVisibleElement'][]  = array('ContaoBlackforest\Frontend\Content\Device', 'visibleDevice');
-$GLOBALS['TL_HOOKS']['loadDataContainer'][]  = array('ContaoBlackforest\Backend\DCA\Content\Device', 'add');
-
+$GLOBALS['TL_HOOKS']['loadDataContainer'][]  = array('ContaoBlackforest\Backend\DCA\Content\Device', 'addChildRecordCallback');
