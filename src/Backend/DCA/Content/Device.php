@@ -67,4 +67,12 @@ class Device extends \Backend
 
 		return $return;
 	}
+
+	public function addChildRecordCallback($table) {
+		if ($table === 'tl_content') {
+			$callback = &$GLOBALS['TL_DCA'][$table]['list']['sorting']['child_record_callback'];
+
+			array_insert($callback, 0, array('ContaoBlackforest\Backend\DCA\Content\Device', 'addDeviceVisibility'));
+		}
+	}
 }
