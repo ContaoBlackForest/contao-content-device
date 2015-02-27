@@ -34,14 +34,18 @@ class Device extends \Controller
 	 */
 	public function visibleDevice($element, $return)
 	{
-		$method = explode('_', $element->getTable())[1] . 'Visible';
+		if ($return) {
 
-		if (method_exists($this, $method)) {
-			return $this->$method($element);
+			$method = explode('_', $element->getTable())[1] . 'Visible';
+
+			if (method_exists($this, $method)) {
+				return $this->$method($element);
+			}
 		}
 
 		return $return;
 	}
+
 
 	protected function contentVisible($element)
 	{
@@ -54,7 +58,9 @@ class Device extends \Controller
 		return true;
 	}
 
-	protected function isDesktop() {
+
+	protected function isDesktop()
+	{
 		if (!$GLOBALS['container']['mobile-detect']->isMobile()) {
 			return true;
 		}
@@ -62,7 +68,9 @@ class Device extends \Controller
 		return false;
 	}
 
-	protected function isMobile() {
+
+	protected function isMobile()
+	{
 		if ($GLOBALS['container']['mobile-detect']->isMobile()) {
 			return true;
 		}
@@ -70,7 +78,9 @@ class Device extends \Controller
 		return false;
 	}
 
-	protected function isPhone() {
+
+	protected function isPhone()
+	{
 		if (!$GLOBALS['container']['mobile-detect']->isTablet() && $GLOBALS['container']['mobile-detect']->isMobile()) {
 			return true;
 		}
@@ -78,7 +88,9 @@ class Device extends \Controller
 		return false;
 	}
 
-	protected function isTablet() {
+
+	protected function isTablet()
+	{
 		if ($GLOBALS['container']['mobile-detect']->isTablet()) {
 			return true;
 		}
