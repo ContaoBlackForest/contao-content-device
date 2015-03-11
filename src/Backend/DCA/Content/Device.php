@@ -52,15 +52,19 @@ class Device extends \Backend
 							$row
 						);
 
-		if ($row['deviceSelect'] && $row['deviceSelect'] != $GLOBALS['TL_DCA'][$strName]['fields']['deviceSelect']['default']) {
-			$return    = explode('</div>', $return);
-			$return[0] = str_replace(
-				$GLOBALS['TL_LANG']['CTE'][$row['type']][0],
-				$GLOBALS['TL_LANG']['CTE'][$row['type']][0] . ' ('
-				. $GLOBALS['TL_LANG'][$strName]['deviceVisibility'] . ' ' . $GLOBALS['TL_LANG'][$strName][$row['deviceSelect']] . ')',
-				$return[0]
-			);
-			$return    = implode('</div>', $return);
+		if ($row['deviceSelect']) {
+			$devices = unserialize($row['deviceSelect']);
+
+			if ($devices) {
+				$string = '';
+				foreach ($devices as $device) {
+					$string .= ' (' . $GLOBALS['TL_LANG'][$strName]['deviceVisibility'] . ' ' . $GLOBALS['TL_LANG'][$strName][$device] . ')';
+				}
+
+				$return    = explode('</div>', $return);
+				$return[0] = str_replace($GLOBALS['TL_LANG']['CTE'][$row['type']][0], $GLOBALS['TL_LANG']['CTE'][$row['type']][0] . $string, $return[0]);
+				$return    = implode('</div>', $return);
+			}
 		}
 
 		array_insert($callback, 0, array($reflectionClass->name, __FUNCTION__));
@@ -68,7 +72,8 @@ class Device extends \Backend
 		return $return;
 	}
 
-	public function addChildRecordCallback($table) {
+	public function addChildRecordCallback($table)
+	{
 		if ($table === 'tl_content') {
 			$callback = &$GLOBALS['TL_DCA'][$table]['list']['sorting']['child_record_callback'];
 
