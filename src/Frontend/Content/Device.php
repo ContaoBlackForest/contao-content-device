@@ -49,10 +49,22 @@ class Device extends \Controller
 
 	protected function contentVisible($element)
 	{
-		$method = 'is' . str_replace($element->deviceSelect[0], strtoupper($element->deviceSelect[0]), $element->deviceSelect);
+		if ($element->deviceSelect) {
+			$element->deviceSelect = unserialize($element->deviceSelect);
 
-		if (method_exists($this, $method)) {
-			return $this->$method($element);
+			if ($element->deviceSelect) {
+				$return = false;
+
+				foreach ($element->deviceSelect as $device) {
+					$method = 'is' . str_replace($device[0], strtoupper($device[0]), $device);
+
+					if (method_exists($this, $method)) {
+						$this->$method($element) && $return === false ? $return = true : '';
+					}
+				}
+
+				return $return;
+			}
 		}
 
 		return true;
